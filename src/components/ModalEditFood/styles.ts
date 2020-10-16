@@ -18,6 +18,11 @@ export const Form = styled(Unform)`
     align-self: flex-end;
   }
 
+  > span {
+    color: #6c6c80;
+    margin-top: 10px;
+  }
+
   button {
     font-weight: 600;
     border-radius: 8px;

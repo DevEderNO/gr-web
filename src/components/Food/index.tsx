@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 
 import { FiEdit3, FiTrash } from 'react-icons/fi';
+import { useToast } from '../../hooks/toast';
+import api from '../../services/api';
 
 import { Container } from './styles';
 
 interface IFoodPlate {
   id: number;
   name: string;
-  image: string;
+  image_url: string;
   price: string;
   description: string;
   available: boolean;
@@ -25,19 +27,29 @@ const Food: React.FC<IProps> = ({
   handleEditFood,
 }: IProps) => {
   const [isAvailable, setIsAvailable] = useState(food.available);
+  const { addToast } = useToast();
 
   async function toggleAvailable(): Promise<void> {
     // TODO UPDATE STATUS (available)
+    const { id } = food;
+    setIsAvailable(state => !state);
+    api.put(`/foods/${id}`, { ...food, available: !isAvailable });
+
+    addToast({
+      type: 'success',
+      title: 'Disponibilidade alterada com sucesso!',
+    });
   }
 
   function setEditingFood(): void {
     // TODO - SET THE ID OF THE CURRENT ITEM TO THE EDITING FOOD AND OPEN MODAL
+    handleEditFood(food);
   }
 
   return (
     <Container available={isAvailable}>
       <header>
-        <img src={food.image} alt={food.name} />
+        <img src={food.image_url} alt={food.name} />
       </header>
       <section className="body">
         <h2>{food.name}</h2>

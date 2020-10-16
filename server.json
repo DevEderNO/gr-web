@@ -1,20 +1,12 @@
 {
   "foods": [
     {
-      "id": 1,
-      "name": "Ao molho",
-      "description": "Macarrão ao molho branco, fughi e cheiro verde das montanhas.",
-      "price": "19.90",
-      "available": true,
-      "image": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food1.png"
-    },
-    {
       "id": 2,
       "name": "Veggie",
       "description": "Macarrão com pimentão, ervilha e ervas finas colhidas no himalaia.",
       "price": "21.90",
       "available": true,
-      "image": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food2.png"
+      "image_url": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food2.png"
     },
     {
       "id": 3,
@@ -22,7 +14,39 @@
       "description": "Macarrão com vegetais de primeira linha e camarão dos 7 mares.",
       "price": "25.90",
       "available": true,
-      "image": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food3.png"
+      "image_url": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food3.png"
+    },
+    {
+      "id": 4,
+      "available": true,
+      "image_url": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food3.png",
+      "name": "Sacotini",
+      "price": "35,99",
+      "description": "Massa artesanal recheada de muçarela de búfala com manjericão ao molho pomodoro."
+    },
+    {
+      "image_url": "https://static-images.ifood.com.br/image/upload/t_medium/pratos/f27da132-3ea6-436b-b1f0-0cab093e2c62/202009011339_CMNo_p.jpg",
+      "name": "2 pizzas grandes + coca",
+      "price": "89,90",
+      "description": "10 opções em dobro para nosso combo mais vendido. Confira!",
+      "available": true,
+      "id": 5
+    },
+    {
+      "image_url": "https://static-images.ifood.com.br/image/upload//pratos/f27da132-3ea6-436b-b1f0-0cab093e2c62/202009011335_6TIM_p.jpg",
+      "name": "Sabor don patroni e + 4 por 49.90 (das 15 às 18 horas)",
+      "price": "49,90",
+      "description": "Nossa maior estrela, e mais 4 opções com preço mágico... Corre que é só agora!",
+      "available": true,
+      "id": 6
+    },
+    {
+      "image_url": "https://static-images.ifood.com.br/image/upload/t_medium/pratos/5221af98-5ad4-42e2-a767-23d1545b82d5/202008311134_wyct_o.jpg",
+      "name": "Royal cheese ribs",
+      "price": "89,90",
+      "description": "Uma versão da nossa ribs: desossada, recheada com mix de queijos, empanada de um jeito bem crocante e finalizada com queijo gratinado, molho cheddar e bacon.",
+      "available": true,
+      "id": 7
     }
   ]
 }

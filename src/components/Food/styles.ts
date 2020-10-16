@@ -7,11 +7,14 @@ interface IFoodPlateProps {
 export const Container = styled.div<IFoodPlateProps>`
   background: #f0f0f5;
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
 
   header {
     background: #ffb84d;
     border-radius: 8px 8px 0px 0px;
     height: 192px;
+    max-width: 405.33px;
     overflow: hidden;
     transition: 0.3s opacity;
     text-align: center;
@@ -24,12 +27,15 @@ export const Container = styled.div<IFoodPlateProps>`
 
     img {
       pointer-events: none;
+      max-width: 405.33px;
       user-select: none;
+      object-fit: cover;
     }
   }
 
   section.body {
     padding: 30px;
+    flex: 1;
 
     h2 {
       color: #3d3d4d;

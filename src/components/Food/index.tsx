@@ -53,10 +53,12 @@ const Food: React.FC<IProps> = ({
       </header>
       <section className="body">
         <h2>{food.name}</h2>
-        <p>{food.description}</p>
-        <p className="price">
-          R$ <b>{food.price}</b>
-        </p>
+        <div>
+          <p>{food.description}</p>
+          <p className="price">
+            R$ <b>{food.price}</b>
+          </p>
+        </div>
       </section>
       <section className="footer">
         <div className="icon-container">

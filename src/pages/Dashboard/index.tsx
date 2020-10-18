@@ -41,10 +41,18 @@ const Dashboard: React.FC = () => {
   async function handleAddFood(
     food: Omit<IFoodPlate, 'id' | 'available'>,
   ): Promise<void> {
+    const { image_url } = food;
     try {
-      api.post('foods', { ...food, available: true }).then(response => {
-        setFoods(state => [...state, response.data]);
-      });
+      api
+        .post('foods', {
+          ...food,
+          available: true,
+          thumbnail_url: image_url,
+          extras: [],
+        })
+        .then(response => {
+          setFoods(state => [...state, response.data]);
+        });
 
       addToast({
         type: 'success',
@@ -59,14 +67,16 @@ const Dashboard: React.FC = () => {
     food: Omit<IFoodPlate, 'id' | 'available'>,
   ): Promise<void> {
     // TODO UPDATE A FOOD PLATE ON THE API
-    const { id, available } = editingFood;
-    api.put(`/foods/${id}`, { id, available, ...food }).then(response => {
-      const itemIndex = foods.findIndex(stateItem => stateItem.id === id);
-      const foodsCloned = [...foods];
+    const { id, available, image_url } = editingFood;
+    api
+      .put(`/foods/${id}`, { id, available, thumbnail_url: image_url, ...food })
+      .then(response => {
+        const itemIndex = foods.findIndex(stateItem => stateItem.id === id);
+        const foodsCloned = [...foods];
 
-      foodsCloned[itemIndex] = response.data;
-      setFoods(foodsCloned);
-    });
+        foodsCloned[itemIndex] = response.data;
+        setFoods(foodsCloned);
+      });
   }
 
   async function handleDeleteFood(id: number): Promise<void> {

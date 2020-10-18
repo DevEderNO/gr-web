@@ -6,18 +6,18 @@ interface IFoodPlateProps {
 
 export const Container = styled.div<IFoodPlateProps>`
   background: #f0f0f5;
-  border-radius: 8px;
+  border-radius: 0.8rem;
   display: flex;
   flex-direction: column;
+  font-size: 1rem;
 
   header {
     background: #ffb84d;
-    border-radius: 8px 8px 0px 0px;
-    height: 192px;
-    max-width: 405.33px;
+    border-radius: 0.8rem 0.8rem 0 0;
     overflow: hidden;
     transition: 0.3s opacity;
     text-align: center;
+    display: flex;
 
     ${props =>
       !props.available &&
@@ -27,34 +27,45 @@ export const Container = styled.div<IFoodPlateProps>`
 
     img {
       pointer-events: none;
-      max-width: 405.33px;
+      width: 100%;
       user-select: none;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
     }
   }
 
   section.body {
-    padding: 30px;
+    padding: 2rem;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
 
     h2 {
       color: #3d3d4d;
     }
 
-    p {
-      color: #3d3d4d;
+    > div {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
-      margin-top: 16px;
-    }
+      p {
+        color: #3d3d4d;
 
-    .price {
-      font-style: normal;
-      font-size: 24px;
-      line-height: 34px;
-      color: #39b100;
+        margin-top: 1.6rem;
+      }
 
-      b {
-        font-weight: 600;
+      .price {
+        font-style: normal;
+        font-size: 2rem;
+        line-height: 3.4rem;
+        color: #39b100;
+
+        b {
+          font-weight: 600;
+        }
       }
     }
   }
@@ -64,17 +75,17 @@ export const Container = styled.div<IFoodPlateProps>`
     justify-content: space-between;
     align-items: center;
 
-    padding: 20px 30px;
+    padding: 2rem;
     background: #e4e4eb;
-    border-radius: 0px 0px 8px 8px;
+    border-radius: 0px 0px 0.8rem 0.8rem;
 
     div.icon-container {
       display: flex;
 
       button {
         background: #fff;
-        padding: 10px;
-        border-radius: 8px;
+        padding: 1rem;
+        border-radius: 0.8rem;
         display: flex;
         border: none;
         transition: 0.1s;
@@ -84,7 +95,7 @@ export const Container = styled.div<IFoodPlateProps>`
         }
 
         & + button {
-          margin-left: 6px;
+          margin-left: 0.6rem;
         }
       }
     }
@@ -92,6 +103,9 @@ export const Container = styled.div<IFoodPlateProps>`
     div.availability-container {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
+      margin-left: 3rem;
+      justify-content: center;
 
       p {
         color: #3d3d4d;
@@ -100,9 +114,9 @@ export const Container = styled.div<IFoodPlateProps>`
       .switch {
         position: relative;
         display: inline-block;
-        width: 88px;
-        height: 32px;
-        margin-left: 12px;
+        width: 8rem;
+        height: 3rem;
+        margin-left: 1.2rem;
 
         & input {
           opacity: 0;
@@ -120,19 +134,19 @@ export const Container = styled.div<IFoodPlateProps>`
           background-color: #c72828;
           -webkit-transition: 0.4s;
           transition: 0.4s;
-          border-radius: 16px;
+          border-radius: 1.6rem;
 
           &:before {
             position: absolute;
             content: '';
-            height: 20px;
-            width: 40px;
-            left: 8px;
-            bottom: 6px;
+            height: 2rem;
+            width: 4rem;
+            left: 0.4rem;
+            bottom: 0.6rem;
             background-color: white;
             -webkit-transition: 0.4s;
             transition: 0.4s;
-            border-radius: 10px;
+            border-radius: 1rem;
           }
         }
 
@@ -141,13 +155,13 @@ export const Container = styled.div<IFoodPlateProps>`
         }
 
         input:focus + .slider {
-          box-shadow: 0 0 1px #2196f3;
+          box-shadow: 0 0 0.1rem #2196f3;
         }
 
         input:checked + .slider:before {
-          -webkit-transform: translateX(32px);
-          -ms-transform: translateX(32px);
-          transform: translateX(32px);
+          -webkit-transform: translateX(3.2rem);
+          -ms-transform: translateX(3.2rem);
+          transform: translateX(3.2rem);
         }
       }
     }

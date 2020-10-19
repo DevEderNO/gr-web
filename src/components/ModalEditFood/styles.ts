@@ -1,5 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Form as Unform } from '@unform/web';
+
+interface IColumnProps {
+  width?: string;
+}
 
 export const Form = styled(Unform)`
   padding: 48px 40px;
@@ -10,15 +14,15 @@ export const Form = styled(Unform)`
     font-weight: 600;
     font-size: 36px;
     line-height: 36px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 
   button {
-    margin-top: 48px;
+    margin-top: 24px;
     align-self: flex-end;
   }
 
-  > span {
+  span {
     color: #6c6c80;
     margin-top: 10px;
   }
@@ -46,4 +50,20 @@ export const Form = styled(Unform)`
       margin: 0 auto;
     }
   }
+`;
+
+export const Row = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
+export const Column = styled.div<IColumnProps>`
+  display: flex;
+  flex-direction: column;
+
+  ${props =>
+    props.width &&
+    css`
+      width: ${props.width};
+    `}
 `;

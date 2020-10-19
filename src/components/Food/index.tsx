@@ -3,22 +3,14 @@ import React, { useState } from 'react';
 import { FiEdit3, FiTrash } from 'react-icons/fi';
 import { useToast } from '../../hooks/toast';
 import api from '../../services/api';
+import IFood from '../@types/food';
 
 import { Container } from './styles';
 
-interface IFoodPlate {
-  id: number;
-  name: string;
-  image_url: string;
-  price: string;
-  description: string;
-  available: boolean;
-}
-
 interface IProps {
-  food: IFoodPlate;
+  food: IFood;
   handleDelete: (id: number) => {};
-  handleEditFood: (food: IFoodPlate) => void;
+  handleEditFood: (food: IFood) => void;
 }
 
 const Food: React.FC<IProps> = ({

@@ -25,7 +25,11 @@ const Food: React.FC<IProps> = ({
     // TODO UPDATE STATUS (available)
     const { id } = food;
     setIsAvailable(state => !state);
-    api.put(`/foods/${id}`, { ...food, available: !isAvailable });
+    api
+      .put(`/foods/${id}`, { ...food, available: !isAvailable })
+      .catch(error => {
+        throw new Error(error.message);
+      });
 
     addToast({
       type: 'success',

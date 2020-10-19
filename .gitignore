@@ -22,3 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 yarn.lock*
+
+# json-server db
+server.json

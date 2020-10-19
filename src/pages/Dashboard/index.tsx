@@ -10,19 +10,12 @@ import ModalEditFood from '../../components/ModalEditFood';
 
 import { FoodsContainer } from './styles';
 import { useToast } from '../../hooks/toast';
-
-interface IFoodPlate {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  image_url: string;
-  available: boolean;
-}
+import IFood from '../../components/@types/food';
 
 const Dashboard: React.FC = () => {
-  const [foods, setFoods] = useState<IFoodPlate[]>([]);
-  const [editingFood, setEditingFood] = useState<IFoodPlate>({} as IFoodPlate);
+  const [foods, setFoods] = useState<IFood[]>([]);
+
+  const [editingFood, setEditingFood] = useState<IFood>({} as IFood);
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
@@ -39,7 +32,7 @@ const Dashboard: React.FC = () => {
   }, []);
 
   async function handleAddFood(
-    food: Omit<IFoodPlate, 'id' | 'available'>,
+    food: Omit<IFood, 'id' | 'available'>,
   ): Promise<void> {
     const { image_url } = food;
     try {
@@ -64,7 +57,7 @@ const Dashboard: React.FC = () => {
   }
 
   async function handleUpdateFood(
-    food: Omit<IFoodPlate, 'id' | 'available'>,
+    food: Omit<IFood, 'id' | 'available'>,
   ): Promise<void> {
     // TODO UPDATE A FOOD PLATE ON THE API
     const { id, available, image_url } = editingFood;
@@ -77,6 +70,11 @@ const Dashboard: React.FC = () => {
         foodsCloned[itemIndex] = response.data;
         setFoods(foodsCloned);
       });
+
+    addToast({
+      type: 'success',
+      title: 'Prato atualizado com sucesso!',
+    });
   }
 
   async function handleDeleteFood(id: number): Promise<void> {
@@ -97,7 +95,7 @@ const Dashboard: React.FC = () => {
     setEditModalOpen(!editModalOpen);
   }
 
-  function handleEditFood(food: IFoodPlate): void {
+  function handleEditFood(food: IFood): void {
     setEditingFood(food);
     toggleEditModal();
   }

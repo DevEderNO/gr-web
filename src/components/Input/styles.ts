@@ -7,6 +7,12 @@ interface IContainerProps {
   isErrored: boolean;
 }
 
+export const LabelInput = styled.label`
+  color: #6c6c80;
+  margin-top: 10px;
+  margin-left: 5px;
+`;
+
 export const Container = styled.div<IContainerProps>`
   display: flex;
   align-items: center;
@@ -19,7 +25,7 @@ export const Container = styled.div<IContainerProps>`
   width: 100%;
   font-size: 16px;
 
-  & + div {
+  > & + div {
     margin-top: 24px;
   }
 

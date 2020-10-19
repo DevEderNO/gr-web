@@ -18,6 +18,7 @@ export const Container = styled.div<IFoodPlateProps>`
     transition: 0.3s opacity;
     text-align: center;
     display: flex;
+    max-height: 206px;
 
     ${props =>
       !props.available &&
@@ -29,7 +30,7 @@ export const Container = styled.div<IFoodPlateProps>`
       pointer-events: none;
       width: 100%;
       user-select: none;
-      object-fit: contain;
+      object-fit: cover;
       object-position: center;
     }
   }
@@ -109,14 +110,14 @@ export const Container = styled.div<IFoodPlateProps>`
 
       p {
         color: #3d3d4d;
+        margin-right: 10px;
       }
 
       .switch {
         position: relative;
         display: inline-block;
         width: 8rem;
-        height: 3rem;
-        margin-left: 1.2rem;
+        height: 2.2rem;
 
         & input {
           opacity: 0;
@@ -139,10 +140,10 @@ export const Container = styled.div<IFoodPlateProps>`
           &:before {
             position: absolute;
             content: '';
-            height: 2rem;
+            height: 1.6rem;
             width: 4rem;
             left: 0.4rem;
-            bottom: 0.6rem;
+            bottom: 0.3rem;
             background-color: white;
             -webkit-transition: 0.4s;
             transition: 0.4s;

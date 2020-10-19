@@ -1,18 +1,29 @@
-import React, { useRef, useCallback } from 'react';
+import React, {
+  useRef,
+  useCallback,
+  useEffect,
+  useState,
+  useMemo,
+} from 'react';
 
 import { FiCheckSquare } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import { Form } from './styles';
+import { Column, Form, Row } from './styles';
 import Modal from '../Modal';
 import Input from '../Input';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
+import Select from '../Select';
+import ICategory from '../@types/categories';
+import { useToast } from '../../hooks/toast';
 
 interface IFoodPlate {
   id: number;
   name: string;
   image_url: string;
   price: string;
+  category: number;
   description: string;
   available: boolean;
 }
@@ -21,6 +32,7 @@ interface ICreateFoodData {
   name: string;
   image_url: string;
   price: string;
+  category: number;
   description: string;
 }
 
@@ -35,7 +47,29 @@ const ModalAddFood: React.FC<IModalProps> = ({
   setIsOpen,
   handleAddFood,
 }) => {
+  const [categories, setCategories] = useState<ICategory[]>([]);
   const formRef = useRef<FormHandles>(null);
+
+  const { addToast } = useToast();
+
+  useEffect(() => {
+    async function loadCategories(): Promise<void> {
+      api.get('/categories').then(response => {
+        setCategories(response.data);
+      });
+    }
+
+    loadCategories();
+  }, []);
+
+  const cateriesOptions = useMemo(() => {
+    return categories.map(category => {
+      return {
+        value: category.id,
+        label: category.title,
+      };
+    });
+  }, [categories]);
 
   const handleSubmit = useCallback(
     async (data: ICreateFoodData) => {
@@ -45,6 +79,7 @@ const ModalAddFood: React.FC<IModalProps> = ({
           name: Yup.string().required('Campo obrigatório'),
           image_url: Yup.string().required('Campo obrigatório'),
           price: Yup.string().required('Campo obrigatório'),
+          category: Yup.number().required('Campo obrigatório'),
           description: Yup.string().required('Campo obrigatório'),
         });
 
@@ -58,26 +93,49 @@ const ModalAddFood: React.FC<IModalProps> = ({
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);
           formRef.current?.setErrors(errors);
+          return;
         }
+        addToast({
+          type: 'error',
+          title: 'Erro ao cadastrar prato.',
+          description:
+            'Ocorreu um erro ao cadastrar o prato, tente novamente mais tarde',
+        });
       }
     },
-    [handleAddFood, setIsOpen],
+    [handleAddFood, setIsOpen, addToast],
   );
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <Form ref={formRef} onSubmit={handleSubmit}>
         <h1>Novo Prato</h1>
-        <span>URL da imagem</span>
-        <Input name="image_url" placeholder="Cole o link aqui" />
+        <Input
+          name="image_url"
+          label="URL da imagem"
+          placeholder="Cole o link aqui"
+        />
 
-        <span>Nome do prato</span>
-        <Input name="name" placeholder="Ex: Moda Italiana" />
-        <span>Preço</span>
-        <Input name="price" placeholder="Ex: 19.90" />
+        <Row>
+          <Column width="100%">
+            <Input
+              name="name"
+              label="Nome do prato"
+              placeholder="Ex: Moda Italiana"
+            />
+          </Column>
+          <Column>
+            <Input name="price" label="Preço" placeholder="Ex: 19.90" />
+          </Column>
+        </Row>
 
-        <span>Descrição do prato</span>
-        <Input name="description" placeholder="Descrição" />
+        <Select name="category" label="Categoria" options={cateriesOptions} />
+
+        <Input
+          name="description"
+          label="Descrição do prato"
+          placeholder="Descrição"
+        />
         <button type="submit" data-testid="add-food-button">
           <p className="text">Adicionar Prato</p>
           <div className="icon">

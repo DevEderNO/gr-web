@@ -11,12 +11,13 @@ import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import { Column, Form, Row } from './styles';
 import Modal from '../Modal';
-import Input from '../Input';
+import Input from '../form/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
-import Select from '../Select';
+import Select from '../form/Select';
 import ICategory from '../@types/categories';
 import { useToast } from '../../hooks/toast';
+import TextArea from '../form/TextArea';
 
 interface IFoodPlate {
   id: number;
@@ -101,6 +102,7 @@ const ModalAddFood: React.FC<IModalProps> = ({
           description:
             'Ocorreu um erro ao cadastrar o prato, tente novamente mais tarde',
         });
+        throw new Error(error.message);
       }
     },
     [handleAddFood, setIsOpen, addToast],
@@ -131,7 +133,7 @@ const ModalAddFood: React.FC<IModalProps> = ({
 
         <Select name="category" label="Categoria" options={cateriesOptions} />
 
-        <Input
+        <TextArea
           name="description"
           label="Descrição do prato"
           placeholder="Descrição"

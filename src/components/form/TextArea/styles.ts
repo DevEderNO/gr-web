@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import Tooltip from '../Tooltip';
+import Tooltip from '../../Tooltip';
 
 interface IContainerProps {
   isFocused: boolean;
@@ -55,7 +55,7 @@ export const Container = styled.div<IContainerProps>`
       color: #ff9000;
     `}
 
-  input {
+    textarea {
     flex: 1;
     background: transparent;
     border: 0;

@@ -46,6 +46,7 @@ const Modal: React.FC<IModalProps> = ({ children, isOpen, setIsOpen }) => {
           maxHeight: '100%',
           border: 'none',
           overflowY: 'auto',
+          overflowX: 'hidden',
         },
         overlay: {
           backgroundColor: '#121214e6',

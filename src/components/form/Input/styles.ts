@@ -11,6 +11,7 @@ export const LabelInput = styled.label`
   color: #6c6c80;
   margin-top: 10px;
   margin-left: 5px;
+  font-weight: 500;
 `;
 
 export const Container = styled.div<IContainerProps>`
@@ -60,6 +61,7 @@ export const Container = styled.div<IContainerProps>`
     background: transparent;
     border: 0;
     color: inherit;
+    width: inherit;
 
     &::placeholder {
       color: #b7b7cc;

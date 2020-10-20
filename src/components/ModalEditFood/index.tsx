@@ -128,7 +128,7 @@ const ModalEditFood: React.FC<IModalProps> = ({
               placeholder="Ex: Moda Italiana"
             />
           </Column>
-          <Column>
+          <Column width="200px">
             <Input name="price" label="Preço" placeholder="Ex: 19.90" />
           </Column>
         </Row>

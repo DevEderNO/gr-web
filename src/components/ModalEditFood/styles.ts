@@ -66,4 +66,8 @@ export const Column = styled.div<IColumnProps>`
     css`
       width: ${props.width};
     `}
+
+  + div {
+    margin-left: 10px;
+  }
 `;

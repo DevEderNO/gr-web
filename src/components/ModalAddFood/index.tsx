@@ -6,10 +6,10 @@ import React, {
   useMemo,
 } from 'react';
 
-import { FiCheckSquare } from 'react-icons/fi';
+import { FiCheckSquare, FiPlus, FiEdit, FiTrash } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import { Column, Form, Row } from './styles';
+import { Column, ExtrasTable, Form, Row } from './styles';
 import Modal from '../Modal';
 import Input from '../form/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -18,16 +18,9 @@ import Select from '../form/Select';
 import ICategory from '../@types/categories';
 import { useToast } from '../../hooks/toast';
 import TextArea from '../form/TextArea';
-
-interface IFoodPlate {
-  id: number;
-  name: string;
-  image_url: string;
-  price: string;
-  category: number;
-  description: string;
-  available: boolean;
-}
+import IFood from '../@types/food';
+import IFoodExtra from '../@types/foodExtra';
+import ModalAddExtra from '../ModalAddExtra';
 
 interface ICreateFoodData {
   name: string;
@@ -40,7 +33,7 @@ interface ICreateFoodData {
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleAddFood: (food: Omit<IFoodPlate, 'id' | 'available'>) => void;
+  handleAddFood: (food: Omit<IFood, 'id' | 'available'>) => void;
 }
 
 const ModalAddFood: React.FC<IModalProps> = ({
@@ -49,6 +42,8 @@ const ModalAddFood: React.FC<IModalProps> = ({
   handleAddFood,
 }) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
+  const [extras, setExtras] = useState<IFoodExtra[]>([]);
+  const [addExtraModalOpen, setAddExtraModalOpen] = useState(false);
   const formRef = useRef<FormHandles>(null);
 
   const { addToast } = useToast();
@@ -71,6 +66,21 @@ const ModalAddFood: React.FC<IModalProps> = ({
       };
     });
   }, [categories]);
+
+  function toggleAddExtraModal(): void {
+    setAddExtraModalOpen(!addExtraModalOpen);
+  }
+
+  const handleDeleteExtra = useCallback(
+    (id: number) => {
+      setExtras(state => state.filter(extra => extra.id !== id));
+    },
+    [setExtras],
+  );
+
+  const handleAddExtra = useCallback((extra: Omit<IFoodExtra, 'id'>) => {
+    setExtras(state => [...state, { id: state.length, ...extra }]);
+  }, []);
 
   const handleSubmit = useCallback(
     async (data: ICreateFoodData) => {
@@ -109,43 +119,77 @@ const ModalAddFood: React.FC<IModalProps> = ({
   );
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form ref={formRef} onSubmit={handleSubmit}>
-        <h1>Novo Prato</h1>
-        <Input
-          name="image_url"
-          label="URL da imagem"
-          placeholder="Cole o link aqui"
-        />
+    <>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <h1>Novo Prato</h1>
+          <Input
+            name="image_url"
+            label="URL da imagem"
+            placeholder="Cole o link aqui"
+          />
 
-        <Row>
-          <Column width="100%">
-            <Input
-              name="name"
-              label="Nome do prato"
-              placeholder="Ex: Moda Italiana"
-            />
-          </Column>
-          <Column>
-            <Input name="price" label="Preço" placeholder="Ex: 19.90" />
-          </Column>
-        </Row>
+          <Row>
+            <Column width="100%">
+              <Input
+                name="name"
+                label="Nome do prato"
+                placeholder="Ex: Moda Italiana"
+              />
+            </Column>
+            <Column width="200px">
+              <Input name="price" label="Preço" placeholder="Ex: 19.90" />
+            </Column>
+          </Row>
 
-        <Select name="category" label="Categoria" options={cateriesOptions} />
+          <Select name="category" label="Categoria" options={cateriesOptions} />
 
-        <TextArea
-          name="description"
-          label="Descrição do prato"
-          placeholder="Descrição"
-        />
-        <button type="submit" data-testid="add-food-button">
-          <p className="text">Adicionar Prato</p>
-          <div className="icon">
-            <FiCheckSquare size={24} />
-          </div>
-        </button>
-      </Form>
-    </Modal>
+          <Row>
+            <Column width="100%">
+              <span>Extras</span>
+            </Column>
+            <Column>
+              <FiPlus color="#4ebe1a" size={18} onClick={toggleAddExtraModal} />
+            </Column>
+          </Row>
+
+          <ExtrasTable>
+            <thead>
+              <th align="left">Nome</th>
+              <th align="right">Valor</th>
+              <th align="right">Ações</th>
+            </thead>
+            {extras.map(extra => (
+              <tbody key={extra.id}>
+                <td>{extra.name}</td>
+                <td align="right">{extra.value}</td>
+                <td align="right">
+                  <FiEdit />{' '}
+                  <FiTrash onClick={() => handleDeleteExtra(extra.id)} />
+                </td>
+              </tbody>
+            ))}
+          </ExtrasTable>
+
+          <TextArea
+            name="description"
+            label="Descrição do prato"
+            placeholder="Descrição"
+          />
+          <button type="submit" data-testid="add-food-button">
+            <p className="text">Adicionar Prato</p>
+            <div className="icon">
+              <FiCheckSquare size={24} />
+            </div>
+          </button>
+        </Form>
+      </Modal>
+      <ModalAddExtra
+        setIsOpen={toggleAddExtraModal}
+        isOpen={addExtraModalOpen}
+        handleAddExtra={handleAddExtra}
+      />
+    </>
   );
 };
 

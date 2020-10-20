@@ -8,6 +8,6 @@ export const FoodsContainer = styled.div`
   display: grid;
   justify-content: center;
 
-  grid-template-columns: repeat(auto-fit, minmax(auto, 30rem));
+  grid-template-columns: repeat(auto-fit, minmax(auto, 25rem));
   grid-gap: 1.6rem;
 `;

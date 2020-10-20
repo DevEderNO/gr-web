@@ -26,6 +26,7 @@ export const Form = styled(Unform)`
     color: #6c6c80;
     margin-top: 10px;
     margin-left: 5px;
+    font-weight: 500;
   }
 
   button {
@@ -56,6 +57,7 @@ export const Form = styled(Unform)`
 export const Row = styled.div`
   display: flex;
   width: 100%;
+  align-items: baseline;
 `;
 
 export const Column = styled.div<IColumnProps>`
@@ -71,4 +73,11 @@ export const Column = styled.div<IColumnProps>`
   + div {
     margin-left: 10px;
   }
+`;
+
+export const ExtrasTable = styled.table`
+  background: #fff;
+  padding: 5px 10px;
+  font-family: 'Poppins', sans-serif;
+  color: #6c6c80;
 `;

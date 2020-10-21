@@ -41,7 +41,6 @@ const Dashboard: React.FC = () => {
           ...food,
           available: true,
           thumbnail_url: image_url,
-          extras: [],
         })
         .then(response => {
           setFoods(state => [...state, response.data]);
@@ -93,6 +92,9 @@ const Dashboard: React.FC = () => {
 
   function toggleEditModal(): void {
     setEditModalOpen(!editModalOpen);
+    if (editingFood?.id && editModalOpen) {
+      setEditingFood({} as IFood);
+    }
   }
 
   function handleEditFood(food: IFood): void {

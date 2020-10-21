@@ -17,17 +17,15 @@ export const Form = styled(Unform)`
     margin-bottom: 20px;
   }
 
-  button {
-    margin-top: 24px;
-    align-self: flex-end;
-  }
-
   span {
     color: #6c6c80;
     margin-top: 10px;
+    margin-left: 5px;
   }
 
-  button {
+  > button {
+    margin-top: 24px;
+    align-self: flex-end;
     font-weight: 600;
     border-radius: 8px;
     border: 0;
@@ -55,6 +53,7 @@ export const Form = styled(Unform)`
 export const Row = styled.div`
   display: flex;
   width: 100%;
+  align-items: baseline;
 `;
 
 export const Column = styled.div<IColumnProps>`
@@ -66,4 +65,54 @@ export const Column = styled.div<IColumnProps>`
     css`
       width: ${props.width};
     `}
+
+  + div {
+    margin-left: 10px;
+  }
+`;
+
+export const ExtrasTable = styled.table`
+  background: #fff;
+  padding: 5px 10px;
+  font-family: 'Poppins', sans-serif;
+  color: #6c6c80;
+
+  td {
+    vertical-align: center;
+
+    + td {
+      margin-top: 5px;
+    }
+    svg {
+      cursor: pointer;
+
+      + svg {
+        margin-left: 10px;
+      }
+    }
+  }
+`;
+
+export const ButtonAddExtras = styled.button`
+  width: max-content;
+  font-weight: 600;
+  border-radius: 3px;
+  border: 0;
+  background: #39b100;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+
+  .text {
+    padding: 3px 12px;
+  }
+
+  .icon {
+    display: flex;
+    background: #41c900;
+    padding: 3px;
+    margin: 0 auto;
+  }
 `;

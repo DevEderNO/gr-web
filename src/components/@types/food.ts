@@ -1,3 +1,5 @@
+import IFoodExtra from './foodExtra';
+
 export default interface IFood {
   id: number;
   name: string;
@@ -6,4 +8,5 @@ export default interface IFood {
   category: number;
   image_url: string;
   available: boolean;
+  extras: IFoodExtra[];
 }

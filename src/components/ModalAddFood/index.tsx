@@ -9,7 +9,7 @@ import React, {
 import { FiCheckSquare, FiPlus, FiEdit, FiTrash } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import { Column, ExtrasTable, Form, Row } from './styles';
+import { Column, ExtrasTable, Form, Row, ButtonAddExtras } from './styles';
 import Modal from '../Modal';
 import Input from '../form/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -21,6 +21,7 @@ import TextArea from '../form/TextArea';
 import IFood from '../@types/food';
 import IFoodExtra from '../@types/foodExtra';
 import ModalAddExtra from '../ModalAddExtra';
+import ModalEditExtra from '../ModalEditExtra';
 
 interface ICreateFoodData {
   name: string;
@@ -28,6 +29,7 @@ interface ICreateFoodData {
   price: string;
   category: number;
   description: string;
+  extras: IFoodExtra[];
 }
 
 interface IModalProps {
@@ -44,6 +46,8 @@ const ModalAddFood: React.FC<IModalProps> = ({
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [extras, setExtras] = useState<IFoodExtra[]>([]);
   const [addExtraModalOpen, setAddExtraModalOpen] = useState(false);
+  const [editExtraModalOpen, setEditExtraModalOpen] = useState(false);
+  const [editingExtra, setEditingExtra] = useState({} as IFoodExtra);
   const formRef = useRef<FormHandles>(null);
 
   const { addToast } = useToast();
@@ -71,6 +75,10 @@ const ModalAddFood: React.FC<IModalProps> = ({
     setAddExtraModalOpen(!addExtraModalOpen);
   }
 
+  function toggleEditExtraModal(): void {
+    setEditExtraModalOpen(!editExtraModalOpen);
+  }
+
   const handleDeleteExtra = useCallback(
     (id: number) => {
       setExtras(state => state.filter(extra => extra.id !== id));
@@ -81,6 +89,25 @@ const ModalAddFood: React.FC<IModalProps> = ({
   const handleAddExtra = useCallback((extra: Omit<IFoodExtra, 'id'>) => {
     setExtras(state => [...state, { id: state.length, ...extra }]);
   }, []);
+
+  const handleEditExtra = useCallback((extra: IFoodExtra) => {
+    setEditingExtra(extra);
+    setEditExtraModalOpen(true);
+  }, []);
+
+  const handleUpdateFoodExtra = useCallback(
+    (editedExtra: Omit<IFoodExtra, 'id'>) => {
+      setExtras(state =>
+        state.map(extra => {
+          if (extra.id === editingExtra.id) {
+            return { id: editingExtra.id, ...editedExtra };
+          }
+          return extra;
+        }),
+      );
+    },
+    [editingExtra],
+  );
 
   const handleSubmit = useCallback(
     async (data: ICreateFoodData) => {
@@ -97,8 +124,7 @@ const ModalAddFood: React.FC<IModalProps> = ({
         await schema.validate(data, {
           abortEarly: false,
         });
-
-        handleAddFood(data);
+        handleAddFood({ ...data, extras });
         setIsOpen();
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
@@ -115,7 +141,7 @@ const ModalAddFood: React.FC<IModalProps> = ({
         throw new Error(error.message);
       }
     },
-    [handleAddFood, setIsOpen, addToast],
+    [handleAddFood, setIsOpen, addToast, extras],
   );
 
   return (
@@ -149,7 +175,12 @@ const ModalAddFood: React.FC<IModalProps> = ({
               <span>Extras</span>
             </Column>
             <Column>
-              <FiPlus color="#4ebe1a" size={18} onClick={toggleAddExtraModal} />
+              <ButtonAddExtras type="button" onClick={toggleAddExtraModal}>
+                <p className="text">Novo</p>
+                <div className="icon">
+                  <FiPlus size={18} />
+                </div>
+              </ButtonAddExtras>
             </Column>
           </Row>
 
@@ -164,7 +195,7 @@ const ModalAddFood: React.FC<IModalProps> = ({
                 <td>{extra.name}</td>
                 <td align="right">{extra.value}</td>
                 <td align="right">
-                  <FiEdit />{' '}
+                  <FiEdit onClick={() => handleEditExtra(extra)} />
                   <FiTrash onClick={() => handleDeleteExtra(extra.id)} />
                 </td>
               </tbody>
@@ -188,6 +219,12 @@ const ModalAddFood: React.FC<IModalProps> = ({
         setIsOpen={toggleAddExtraModal}
         isOpen={addExtraModalOpen}
         handleAddExtra={handleAddExtra}
+      />
+      <ModalEditExtra
+        setIsOpen={toggleEditExtraModal}
+        isOpen={editExtraModalOpen}
+        handleUpdateFoodExtra={handleUpdateFoodExtra}
+        editingExtra={editingExtra}
       />
     </>
   );

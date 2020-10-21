@@ -54,6 +54,11 @@ export const Container = styled.div<IFoodPlateProps>`
 
       p {
         color: #3d3d4d;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
 
         margin-top: 1.6rem;
       }
